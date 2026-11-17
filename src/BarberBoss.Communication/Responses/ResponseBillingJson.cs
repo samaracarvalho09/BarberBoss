@@ -1,8 +1,8 @@
 using BarberBoss.Communication.Enums;
 
-namespace BarberBoss.Communication.Requests;
+namespace BarberBoss.Communication.Responses;
 
-public class RequestExpenseJson
+public class ResponseBillingJson
 {
   public DateOnly Date { get; set; }
   public string BarberName { get; set; } = string.Empty;

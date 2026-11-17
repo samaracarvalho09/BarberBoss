@@ -1,9 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore; // Necessário para usar o ToListAsync()
-// using SeuProjeto.Data; // Ajuste para o namespace onde está o seu AppDbContext
-using BarberBoss.Infrastructure;
+using BarberBoss.Application.UseCases.Billings.GetAll;
 using BarberBoss.Communication.Responses;
-using BarberBoss.Application.UseCases.Expenses.GetAll;
+using Microsoft.AspNetCore.Mvc;
+
 namespace BarberBoss.Api.Controllers;
 
 [ApiController]
@@ -17,16 +15,17 @@ public class BillingController : ControllerBase
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(ResponseExpenseJson), StatusCodes.Status200OK)]
-    // [ProducesResponseType(StatusCode.Status)]
-    public async Task<IActionResult> GetAllBilling([FromServices] IGetAllExpenseUseCase useCase)
+    [ProducesResponseType(typeof(ResponseBillingsJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<IActionResult> GetAllBilling([FromServices] IGetAllBillingUseCase useCase)
     {
         var response = await useCase.Execute();
 
-        if(response.Expenses.Count != 0)
+        if (response.Billings.Count == 0)
         {
-            return Ok(response);
+            return NoContent();
         }
-        return Ok("Lista");
+
+        return Ok(response);
     }
 }

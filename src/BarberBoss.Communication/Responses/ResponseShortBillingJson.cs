@@ -1,6 +1,6 @@
 namespace BarberBoss.Communication.Responses;
 
-public class ResponseShortExpenseJson
+public class ResponseShortBillingJson
 {
     public long Id { get; set; }
 

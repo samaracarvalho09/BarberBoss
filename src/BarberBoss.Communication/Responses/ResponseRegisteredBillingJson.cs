@@ -1,6 +1,6 @@
 ﻿namespace BarberBoss.Communication.Responses;
 
-public class ResponseRegisteredExpenseJson
+public class ResponseRegisteredBillingJson
 {
     public string Title { get; set; } = string.Empty;
 }

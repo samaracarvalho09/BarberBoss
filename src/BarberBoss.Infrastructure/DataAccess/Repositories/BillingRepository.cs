@@ -1,34 +1,33 @@
 ﻿using BarberBoss.Domain.Entities;
-using BarberBoss.Domain.Repositories.Expenses;
+using BarberBoss.Domain.Repositories.Billings;
 using Microsoft.EntityFrameworkCore;
 
 namespace BarberBoss.Infrastructure.DataAccess.Repositories;
 
-internal class ExpensesRepository
- : IExpensesReadOnlyRepository 
-// IExpensesWriteOnlyRepository, IExpensesUpdateOnlyRepository
+internal class BillingRepository
+ : IBillingReadOnlyRepository 
+// IBillingWriteOnlyRepository, IBillingUpdateOnlyRepository
 {
     private readonly BarberBossDbContext _dbContext;
     
-    public ExpensesRepository(BarberBossDbContext dbContext)
+    public BillingRepository(BarberBossDbContext dbContext)
     {
         _dbContext = dbContext;
     }
 
-    public async Task Add(Billing expense)
+    public async Task Add(Billing billing)
     {
-        await _dbContext.Billing.AddAsync(expense);
+        await _dbContext.Billing.AddAsync(billing);
     }
 
     public async Task<bool> Delete(long id)
     {
-        var result = await _dbContext.Billing.FirstOrDefaultAsync(expense => expense.Id == id);
+        var result = await _dbContext.Billing.FirstOrDefaultAsync(billing => billing.Id == id);
         if (result is null)
         {
             return false;
         }
 
-        // Corrigido de _dbContext.Expenses para _dbContext.Billing
         _dbContext.Billing.Remove(result); 
 
         return true;
@@ -41,20 +40,20 @@ internal class ExpensesRepository
     }
 
     // Corrigido para retornar Billing?
-    async Task<Billing?> IExpensesReadOnlyRepository.GetById(long id)
+    async Task<Billing?> IBillingReadOnlyRepository.GetById(long id)
     {
-        return await _dbContext.Billing.AsNoTracking().FirstOrDefaultAsync(expense => expense.Id == id);
+        return await _dbContext.Billing.AsNoTracking().FirstOrDefaultAsync(billing => billing.Id == id);
     }
 
     /* Comentado temporariamente até você implementar as outras interfaces
-    async Task<Billing?> IExpensesUpdateOnlyRepository.GetById(long id)
+    async Task<Billing?> IBillingUpdateOnlyRepository.GetById(long id)
     {
-        return await _dbContext.Billing.FirstOrDefaultAsync(expense => expense.Id == id);
+        return await _dbContext.Billing.FirstOrDefaultAsync(billing => billing.Id == id);
     }
 
-    public void Update(Billing expense)
+    public void Update(Billing billing)
     {
-        _dbContext.Billing.Update(expense);
+        _dbContext.Billing.Update(billing);
     }
     */
 
@@ -70,9 +69,9 @@ public async Task<List<Billing>> FilterByMonth(DateOnly date)
     return await _dbContext
         .Billing 
         .AsNoTracking()
-        .Where(expense => expense.Date >= startDate && expense.Date <= endDate)
-        .OrderBy(expense => expense.Date)
-        .ThenBy(expense => expense.BarberName) // Se a entidade usar "ServiceName", altere aqui
+        .Where(billing => billing.Date >= startDate && billing.Date <= endDate)
+        .OrderBy(billing => billing.Date)
+        .ThenBy(billing => billing.BarberName) // Se a entidade usar "ServiceName", altere aqui
         .ToListAsync();
 }
 }

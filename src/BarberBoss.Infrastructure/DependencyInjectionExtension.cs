@@ -7,7 +7,7 @@ using BarberBoss.Infrastructure.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using BarberBoss.Domain.Repositories.Expenses;
+using BarberBoss.Domain.Repositories.Billings;
 using BarberBoss.Domain.Repositories;
 
 
@@ -23,9 +23,9 @@ public static class DependencyInjectionExtension
       private static void AddRepositories(IServiceCollection services)
     {
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-        services.AddScoped<IExpensesReadOnlyRepository, ExpensesRepository>();
-        // services.AddScoped<IExpensesWriteOnlyRepository, ExpensesRepository>();
-        // services.AddScoped<IExpensesUpdateOnlyRepository, ExpensesRepository>();
+        services.AddScoped<IBillingReadOnlyRepository, BillingRepository>();
+        // services.AddScoped<IBillingWriteOnlyRepository, BillingRepository>();
+        // services.AddScoped<IBillingUpdateOnlyRepository, BillingRepository>();
 
     }
 

@@ -1,7 +1,7 @@
 using BarberBoss.Domain.Entities;
 
-namespace BarberBoss.Domain.Repositories.Expenses;
-public interface IExpensesReadOnlyRepository
+namespace BarberBoss.Domain.Repositories.Billings;
+public interface IBillingReadOnlyRepository
 {
     Task<List<Billing>> GetAll();
     Task<Billing?> GetById(long id);
